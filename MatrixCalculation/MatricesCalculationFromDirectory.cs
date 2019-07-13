@@ -29,6 +29,19 @@ namespace MatrixCalculation
                 Console.WriteLine($"Обработка файла: {file.Key}");
                 var matricesFromFile = _matrixParser.GetMatrixData(file.Value);
                 var operationFromFile = _matrixParser.GetMatrixOperation(file.Value);
+
+                if (matricesFromFile == null  || !matricesFromFile.Any())
+                {
+                    Console.WriteLine($"Ошибка в файле {file.Key}: отсутствует матрица");
+                    continue;
+                }
+
+                if (string.IsNullOrEmpty(operationFromFile))
+                {
+                    Console.WriteLine($"Ошибка в файле {file.Key}: отсутствует операция");
+                    continue;
+                }
+
                 Console.WriteLine($"Найдена операция {operationFromFile}");
                 var resultOfCalculation = _matrixCalculation.ExecuteMatrixOperation(matricesFromFile, operationFromFile.ToUpper());
                 if (resultOfCalculation == null || !resultOfCalculation.Any())
